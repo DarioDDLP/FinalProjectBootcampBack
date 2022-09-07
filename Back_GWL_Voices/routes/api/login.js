@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const { createToken } = require('../../helpers/utils');
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.post('/', async (req, res) => {
     try {
         const user = await Users.getByEmail(email);
         if (!user) return res.status(404).json({ error: "invaild email or passord" });
-        const equals = password === user.password ? true : false;
+        const equals = bcrypt.compareSync(password, user.password);
         if (!equals) return res.status(404).json({ error: "invaild email or passord" });
         res.status(200).json({
             user,
