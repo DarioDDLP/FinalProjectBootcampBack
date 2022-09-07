@@ -1,11 +1,12 @@
 const express = require('express');
 const { createToken } = require('../../helpers/utils');
+const { checkToken } = require('../../helpers/middlewares');
 const router = express.Router();
 
 const Users = require('../../models/users.model')
 
 /* GET login listing. */
-router.get('/', async (req, res) => {
+router.get('/', checkToken, async (req, res) => {
     try {
         const users = await Users.getAll();
         res.status(200).send(users)
@@ -15,18 +16,18 @@ router.get('/', async (req, res) => {
 
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkToken, async (req, res) => {
     const { id } = req.params;
     try {
         const response = await Users.getById(id);
-        if (!response) return res.status(404).json({ error: "Id no exist" });
+        if (!response) return res.status(404).json({ error: "Id does not exist" });
         res.status(200).json(response);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', checkToken, async (req, res, next) => {
     const { id } = req.params;
     try {
         const response = await Users.update(id, req.body);

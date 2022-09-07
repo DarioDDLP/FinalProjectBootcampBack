@@ -10,12 +10,12 @@ router.post('/', async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await Users.getByEmail(email);
-        if (!user) return res.status(404).json({ error: "invaild email or passord" });
+        if (!user) return res.status(404).json({ error: "Invalid email or password" });
         const equals = bcrypt.compareSync(password, user.password);
-        if (!equals) return res.status(404).json({ error: "invaild email or passord" });
+        if (!equals) return res.status(404).json({ error: "Invalid email or password" });
         res.status(200).json({
             user,
-            success: 'Login correcto',
+            success: 'Login successful',
             token: createToken(user),
         });
     } catch (err) {

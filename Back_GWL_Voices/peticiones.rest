@@ -4,3 +4,16 @@
 GET http://localhost:3000/api/member
 
 ### 
+
+###
+GET http://localhost:3000/api/member/4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJleHBfZGF0ZSI6MTY2MjU3MzA2NywiaWF0IjoxNjYyNTY1ODY3fQ.8knMDasvFHX3zpg1fYnNsXMNe2RJt93bZaN7zTuT7kI
+
+
+###
+GET http://localhost:3000/api/member
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJleHBfZGF0ZSI6MTY2MjU3Mzc0OCwiaWF0IjoxNjYyNTY2NTQ4fQ.5sJUza0809QB1yWWeN9LwJsNQdrgEv7gz8gacTrS1m4
+
+###
+PUT http://localhost:3000/api/member/5
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJleHBfZGF0ZSI6MTY2MjU3Mzc0OCwiaWF0IjoxNjYyNTY2NTQ4fQ.5sJUza0809QB1yWWeN9LwJsNQdrgEv7gz8gacTrS1m4
