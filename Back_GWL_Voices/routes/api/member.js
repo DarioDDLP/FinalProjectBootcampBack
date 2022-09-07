@@ -26,6 +26,16 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.put('/:id', async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const response = await Users.update(id, req.body);
+        res.json(response);
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
 module.exports = router;
 
 
