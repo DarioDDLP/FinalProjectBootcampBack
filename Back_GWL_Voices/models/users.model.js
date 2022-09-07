@@ -17,4 +17,4 @@ const getById = (id) => {
     return executeQueryOne('select * fromm users where id = ?', [id])
 }
 
-module.exports = { getByEmail, getAll, getById };
+module.exports = { getByEmail, getAll, getById, create };
