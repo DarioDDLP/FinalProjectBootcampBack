@@ -9,7 +9,6 @@ const create = ({ name, surname, email, password }) => {
     return executeQuery('insert into users (name, surname, email, password) values (?, ?, ?, ?)', [name, surname, email, password]);
 }
 
-module.exports = { getByEmail, create };
 const getAll = () => {
     return executeQuery('select * from users')
 }
