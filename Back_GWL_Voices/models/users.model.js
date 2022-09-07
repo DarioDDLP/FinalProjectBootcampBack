@@ -18,7 +18,7 @@ const getById = (id) => {
 };
 
 const update = (id, { image, name, surname, email, phone, working_group, postal_adress, live_in, }) => {
-    return executeQuery('update users set image = ?, name = ?, surname = ?, email = ?, phone = ?, working_group = ?, postal_address = ?, live_in = ?', [image, name, surname, email, phone, working_group, postal_adress, live_in,]);
+    return executeQuery('update users set image = ?, name = ?, surname = ?, email = ?, phone = ?, working_group = ?, postal_address = ?, live_in = ? where id = ?', [image, name, surname, email, phone, working_group, postal_adress, live_in, id]);
 }
 
 module.exports = { getByEmail, getAll, getById, create, update };
