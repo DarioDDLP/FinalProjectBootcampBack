@@ -9,8 +9,8 @@ const getAll = () => {
     return executeQuery('select * from users')
 }
 
-const getById = () => {
-    return executeQueryOne('select * from users where id = ?', [id])
+const getById = (id) => {
+    return executeQueryOne('select * fromm users where id = ?', [id])
 }
 
 module.exports = { getByEmail, getAll, getById };
