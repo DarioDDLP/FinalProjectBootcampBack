@@ -15,17 +15,16 @@ router.get('/', async (req, res) => {
 
 });
 
-// router.get('/', async (req, res) => {
-//     try {
-//         ocnst { id } = er.
-//         const users = await Users.getAll();
-//         console.log(users)
-//         res.send(users)
-//     } catch (error) {
-//         res.send({ error: err.message })
-//     }
-
-// });
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await Users.getById(id);
+        if (!response) return res.status(404).json({ error: "Id no exist" });
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 module.exports = router;
 
