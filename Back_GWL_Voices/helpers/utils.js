@@ -49,4 +49,12 @@ const createToken = (user) => {
     return jwt.sign(obj, process.env.TOKEN_DECODE,);
 }
 
-module.exports = { executeQuery, executeQueryOne, createToken };
+
+const createResetToken = (user) => {
+    const obj = {
+        user_id: user.id,
+        exp_date: dayjs().add(1, "hours").unix(),
+    }
+    return jwt.sign(obj, process.env.TOKEN_DECODE,);
+}
+module.exports = { executeQuery, executeQueryOne, createToken, createResetToken };
