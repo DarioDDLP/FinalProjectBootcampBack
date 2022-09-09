@@ -1,12 +1,11 @@
 const express = require('express');
 const { createToken } = require('../../helpers/utils');
-const { checkToken } = require('../../helpers/middlewares');
 const router = express.Router();
 
 const Users = require('../../models/users.model')
 
 /* GET login listing. */
-router.get('/', checkToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const users = await Users.getAll();
         res.status(200).send(users)
@@ -16,7 +15,15 @@ router.get('/', checkToken, async (req, res) => {
 
 });
 
-router.get('/:id', checkToken, async (req, res) => {
+router.get('/user', async (req, res) => {
+
+    const user = req.user
+    console.log(user)
+    res.status(200).json({ user })
+
+});
+
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const response = await Users.getById(id);
@@ -27,7 +34,7 @@ router.get('/:id', checkToken, async (req, res) => {
     }
 });
 
-router.put('/:id', checkToken, async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
         const response = await Users.update(id, req.body);
