@@ -9,7 +9,7 @@ const chatRouter = require('./api/chat');
 const router = require('express').Router();
 
 router.use('/login', loginRouter);
-router.use('/register', checkToken, checkRole, registerRouter);
+router.use('/register', /*checkToken, checkRole,*/ registerRouter);
 router.use('/member', checkToken, memberRouter);
 router.use('/forgot-password', forgotPasswordRouter);
 router.use('/documentation', checkToken, documentationRouter);
