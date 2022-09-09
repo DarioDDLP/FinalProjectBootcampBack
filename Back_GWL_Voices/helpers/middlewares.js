@@ -24,4 +24,15 @@ const checkToken = async (req, res, next) => {
 
 }
 
-module.exports = { checkToken }
+
+const checkRole = async (req, res, next) => {
+    const admin = req.user.admin
+    if (admin)
+        next();
+    else {
+        return res.status(401).json({ error: 'Unauthorized user' })
+    }
+}
+
+
+module.exports = { checkToken, checkRole }
