@@ -10,7 +10,7 @@ const create = ({ name, surname, email, password }) => {
 };
 
 const getAll = () => {
-    return executeQuery('select * from users')
+    return executeQuery('select * from users ORDER BY name ASC')
 };
 
 const getById = (id) => {

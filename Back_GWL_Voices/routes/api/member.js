@@ -1,5 +1,6 @@
 const express = require('express');
-const fs = require('fs')
+const fs = require('fs');
+const bcrypt = require('bcryptjs');
 const { createToken } = require('../../helpers/utils');
 const multer = require('multer');
 const upload = multer({ dest: 'public/images' });
@@ -83,18 +84,19 @@ router.post('/new-password', async (req, res) => {
 
 router.post('/oldpassword', async (req, res) => {
     try {
-        const id = req.body.id;
+        const id = req.user.id;
         const { inputPass } = req.body;
         const user = await Users.getById(id);
+        console.log(user);
         const equals = bcrypt.compareSync(inputPass, user.password);
         if (!equals) {
-            return res.status(404).json({ error: "Wrong password" });
+            return res.status(404).json({ error: "Wrong current password" });
         }
 
         res.status(200).send(user)
 
     } catch (error) {
-        res.status(404).send({ error: 'Wrong current password' })
+        res.status(404).send({ error: 'Wrong current password!!!!' })
 
     }
 
