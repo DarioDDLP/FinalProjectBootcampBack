@@ -1,5 +1,8 @@
 const express = require('express');
+const fs = require('fs')
 const { createToken } = require('../../helpers/utils');
+const multer = require('multer');
+const upload = multer({ dest: 'public/images' });
 
 
 const router = express.Router();
@@ -36,10 +39,21 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', upload.single('image'), async (req, res, next) => {
     const { id } = req.params;
+    // Antes de guardar el producto en la base de datos, modificamos la imagen para situarla donde nos interesa
+    const extension = '.' + req.file.mimetype.split('/')[1];
+    // Obtengo el nombre de la nueva imagen
+    const newName = req.file.filename + extension;
+    // Obtengo la ruta donde estará, adjuntándole la extensión
+    const newPath = req.file.path + extension;
+    // Muevo la imagen para que resiba la extensión
+    fs.renameSync(req.file.path, newPath);
+    // Modifico el BODY para poder incluir el nombre de la imagen en la BD
+    req.body.image = newName;
     try {
         const response = await Users.update(id, req.body);
+
         res.json(response);
     } catch (err) {
         res.json({ error: err.message });
