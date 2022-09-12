@@ -13,7 +13,6 @@ const Users = require('../../models/users.model')
 router.get('/', async (req, res) => {
     try {
         const users = await Users.getAll();
-        console.log(users);
         res.status(200).send(users)
     } catch (error) {
         res.status(500).send({ error: err.message })
@@ -70,7 +69,6 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
 router.post('/new-password', async (req, res) => {
     const newPassword = req.body.newpassword;
     const { id } = req.user;
-    console.log(newPassword, id);
     if (!newPassword) return res.status(400).json({ message: 'password required' });
     const passwordUpdated = bcrypt.hashSync(newPassword, 12);
     try {
@@ -83,7 +81,28 @@ router.post('/new-password', async (req, res) => {
 
 })
 
+router.post('/oldpassword', async (req, res) => {
+    try {
+        const id = req.body.id;
+        const { inputPass } = req.body;
+        const user = await Users.getById(id);
+        const equals = bcrypt.compareSync(inputPass, user.password);
+        if (!equals) {
+            return res.status(404).json({ error: "Wrong password" });
+        }
+
+        res.status(200).send(user)
+
+    } catch (error) {
+        res.status(404).send({ error: 'Wrong current password' })
+
+    }
+
+
+});
 module.exports = router;
+
+
 
 
 
