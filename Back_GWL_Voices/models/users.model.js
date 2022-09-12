@@ -17,6 +17,7 @@ const getById = (id) => {
     return executeQueryOne('select * from users where id = ?', [id])
 };
 
+
 const update = (id, { image, name, surname, email, phone, working_group, postal_address, live_in, }) => {
     return executeQuery('update users set image = ?, name = ?, surname = ?, email = ?, phone = ?, working_group = ?, postal_address = ?, live_in = ? where id = ?', [image, name, surname, email, phone, working_group, postal_address, live_in, id]);
 };
