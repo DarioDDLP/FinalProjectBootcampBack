@@ -21,6 +21,7 @@ const update = (id, { image, name, surname, email, phone, working_group, postal_
     return executeQuery('update users set image = ?, name = ?, surname = ?, email = ?, phone = ?, working_group = ?, postal_address = ?, live_in = ? where id = ?', [image, name, surname, email, phone, working_group, postal_address, live_in, id]);
 };
 
+
 const addResetToken = (id, resetToken) => {
     return executeQuery('update users set resetToken = ? where id = ?', [resetToken, id]);
 };

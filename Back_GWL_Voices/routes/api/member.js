@@ -1,8 +1,7 @@
 const express = require('express');
-const fs = require('fs')
+const bcrypt = require('bcryptjs');
+
 const { createToken } = require('../../helpers/utils');
-const multer = require('multer');
-const upload = multer({ dest: 'public/images' });
 
 
 const router = express.Router();
@@ -24,7 +23,8 @@ router.get('/user', async (req, res) => {
 
     const user = req.user
     console.log(user)
-    res.status(200).json(user)
+    const resp = await Users.getById(user.id)
+    res.status(200).json(resp)
 
 });
 
@@ -39,26 +39,46 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', upload.single('image'), async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
     const { id } = req.params;
-    // Antes de guardar el producto en la base de datos, modificamos la imagen para situarla donde nos interesa
-    const extension = '.' + req.file.mimetype.split('/')[1];
-    // Obtengo el nombre de la nueva imagen
-    const newName = req.file.filename + extension;
-    // Obtengo la ruta donde estará, adjuntándole la extensión
-    const newPath = req.file.path + extension;
-    // Muevo la imagen para que resiba la extensión
-    fs.renameSync(req.file.path, newPath);
-    // Modifico el BODY para poder incluir el nombre de la imagen en la BD
-    req.body.image = newName;
+    if (req.body.password) {
+        console.log('si hay password para modificar')
+        req.body.password = bcrypt.hashSync(req.body.password, 12);
+    }
+
     try {
         const response = await Users.update(id, req.body);
-
         res.json(response);
     } catch (err) {
         res.json({ error: err.message });
     }
 });
+
+
+router.post('/new-password',
+    body('newPassword')
+        .exists()
+        .withMessage('Password is required')
+        .matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/)
+        .withMessage(`The password must be between 8 and 16 characters long, with at least one digit, at least one lowercase letter, and at least one uppercase letter.
+It can NOT have other symbols.`),
+    async (req, res) => {
+        const { newPassword } = req.body;
+        const { id } = req.body.user;
+
+        if (!newPassword) return res.status(400).json({ message: 'password required' });
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.json(errors.mapped());
+        const passwordUpdated = bcrypt.hashSync(newPassword, 12);
+        try {
+            const user = await Users.getById(id);
+            user.password = newPassword;
+            await Users.updateUserPassword(user.id, passwordUpdated);
+            res.status(200).json({ message: 'Password has been updated' });
+        } catch (err) {
+            return res.status(400).json({ message: 'Sometimes goes wrong!' });
+        }
+    })
 
 module.exports = router;
 
