@@ -25,7 +25,7 @@ router.post('/recovery', async (req, res) => {
         // send mail with defined transport object
         await transporter.sendMail({
             from: 'Forgot Password GWL Voices', // sender address
-            to: "thegordosmen@gmail.com", // list of receivers
+            to: "cdariopex@gmail.com", // list of receivers
             subject: "Forgot Password GWL Voices ", // Subject line
             text: "Hello world?", // plain text body
             html: `<h1>GWL Voices</h1><p>Please refer to the following link to change your password and enable your user again.</p><p>${verificationLink}</p><p>Remember that you only have one hour. After that time, the Link will expire and you will have to repeat the process.</p>`, // html body
