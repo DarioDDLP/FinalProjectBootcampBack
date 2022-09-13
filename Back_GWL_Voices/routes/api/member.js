@@ -74,19 +74,16 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', upload.single('image'), async (req, res, next) => {
     const { id } = req.params;
-    if (req.file) {
-        // Antes de guardar el producto en la base de datos, modificamos la imagen para situarla donde nos interesa
-        const extension = '.' + req.file.mimetype.split('/')[1];
-        // Obtengo el nombre de la nueva imagen
-        const newName = req.file.filename + extension;
-        // Obtengo la ruta donde estará, adjuntándole la extensión
-        const newPath = req.file.path + extension;
-        // Muevo la imagen para que resiba la extensión
-        fs.renameSync(req.file.path, newPath);
-        // Modifico el BODY para poder incluir el nombre de la imagen en la BD
-        req.body.image = newName;
-    } else req.body.image = req.user.image;
-
+    // Antes de guardar el producto en la base de datos, modificamos la imagen para situarla donde nos interesa
+    const extension = '.' + req.file.mimetype.split('/')[1];
+    // Obtengo el nombre de la nueva imagen
+    const newName = req.file.filename + extension;
+    // Obtengo la ruta donde estará, adjuntándole la extensión
+    const newPath = req.file.path + extension;
+    // Muevo la imagen para que resiba la extensión
+    fs.renameSync(req.file.path, newPath);
+    // Modifico el BODY para poder incluir el nombre de la imagen en la BD
+    req.body.image = newName;
     try {
         const response = await Users.update(id, req.body);
 

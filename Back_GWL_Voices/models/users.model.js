@@ -22,7 +22,7 @@ const getByStatus = (status) => {
 }
 
 const update = (id, { image, name, surname, email, phone, working_group, postal_address, live_in, }) => {
-    return executeQuery('update users set image = ?, name = ?, surname = ?, email = ?, phone = ?, working_group = ?, postal_address = ?, live_in = ?, where id = ?', [image, name, surname, email, phone, working_group, postal_address, live_in, id]);
+    return executeQuery('update users set image = ?, name = ?, surname = ?, email = ?, phone = ?, working_group = ?, postal_address = ?, live_in = ? where id = ?', [image, name, surname, email, phone, working_group, postal_address, live_in, id]);
 };
 
 const updateStatus = (status, id) => {
