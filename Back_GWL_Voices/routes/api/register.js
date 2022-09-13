@@ -29,6 +29,7 @@ router.post(
         if (!errors.isEmpty()) return res.json(errors.mapped());
         try {
             req.body.password = bcrypt.hashSync(req.body.password, 12);
+            req.body.image = 'withoutphoto.jpeg';
             const response = await Users.create(req.body);
             res.json(response);
         } catch (err) {
