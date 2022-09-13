@@ -34,6 +34,33 @@ router.get('/user', async (req, res) => {
 
 });
 
+router.post('/status-filtered', async (req, res) => {
+    let { status } = req.body
+    if (status === "1") status = true
+    else if (status === "0") status = false
+    try {
+        const response = await Users.getByStatus(status);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+});
+
+router.post('/status', async (req, res) => {
+    const { id } = req.body;
+    try {
+        const user = await Users.getById(id);
+        if (!user.status) user.status = true
+        else if (user.status) user.status = false
+        const response = await Users.updateStatus(user.status, id)
+        res.status(200).json(response);
+    } catch (error) {
+        console.log(error)
+    }
+
+})
+
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
