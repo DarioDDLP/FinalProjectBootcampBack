@@ -10,11 +10,11 @@ const create = ({ name, surname, email, password }) => {
 };
 
 const getAll = () => {
-    return executeQuery('select * from users ORDER BY name ASC')
+    return executeQuery('SELECT id, image, name, surname, email, phone, working_group, postal_address, live_in, admin, status, resetToken from users ORDER BY name ASC ')
 };
 
 const getById = (id) => {
-    return executeQueryOne('select * from users where id = ?', [id])
+    return executeQueryOne('SELECT id, image, name, surname, email, phone, working_group, postal_address, live_in, admin, status, resetToken from users where id = ?', [id])
 };
 
 
