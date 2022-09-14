@@ -17,18 +17,20 @@ router.post('/', upload.single('document'), async (req, res) => {
     const newName = req.file.filename + extension;
     const newPath = req.file.path + extension;
     fs.renameSync(req.file.path, newPath);
-
     const obj = {
         user_id: req.user.id,
         category_id: parseInt(req.body.category_id),
         date: new Date(),
         route: newName,
-        name: req.file.originalname
+        name: req.file.originalname,
+        subcategory: req.body.subcategory
     }
+    console.log(obj)
     try {
         const response = await Documentation.create(obj);
         res.status(200).json(response);
     } catch (err) {
+        console.log(err.message)
         res.status(500).json({ error: err.message });
     }
 });
