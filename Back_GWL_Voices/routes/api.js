@@ -16,7 +16,7 @@ router.use('/register', /*checkToken, checkRole,*/ registerRouter);
 router.use('/member', checkToken, memberRouter);
 router.use('/forgot-password', forgotPasswordRouter);
 router.use('/new-password', newPasswordRouter);
-router.use('/documentation', documentationRouter);
+router.use('/documentation', checkToken, documentationRouter);
 router.use('/chat', checkToken, chatRouter);
 router.use('/send-email', checkToken, sendMailRouter);
 

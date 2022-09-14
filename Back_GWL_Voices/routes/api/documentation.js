@@ -13,7 +13,6 @@ dayjs().format()
 
 
 router.post('/', upload.single('document'), async (req, res) => {
-
     const extension = '.' + req.file.mimetype.split('/')[1];
     const newName = req.file.filename + extension;
     const newPath = req.file.path + extension;
@@ -47,7 +46,6 @@ router.get('/', async (req, res) => {
 router.get('/not-approved', async (req, res) => {
     try {
         const response = await Documentation.getNotApproved();
-        console.log(dayjs(new Date()).unix())
         res.status(200).json(response);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -63,20 +61,25 @@ router.get('/approved', async (req, res) => {
     }
 });
 
-router.post('/change-authorization/:id', async (req, res) => {
+router.get('/change-authorization/:id', async (req, res) => {
     const { id } = req.params
-    let { newStatus } = req.body
-    if (newStatus === "1") newStatus = true
-    else if (newStatus === "0") newStatus = false
-
     try {
-        const response = await Documentation.changeStatus(id, newStatus);
+        const response = await Documentation.authorization(id);
         res.status(200).json(response);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
+});
 
-
+router.get('/delete/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const response = await Documentation.logicDelete(id);
+        console.log(response);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 
 });
 
