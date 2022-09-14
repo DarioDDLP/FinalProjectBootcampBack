@@ -22,7 +22,7 @@ router.post('/', upload.single('document'), async (req, res) => {
     const obj = {
         user_id: req.user.id,
         category_id: parseInt(req.body.category_id),
-        date: dayjs().unix(),
+        date: new Date(),
         route: newName,
         name: req.file.originalname
     }
