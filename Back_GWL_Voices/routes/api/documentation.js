@@ -1,29 +1,101 @@
 const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
 
+const upload = multer({ dest: 'public/documents' });
 const router = express.Router();
 
-const Users = require('../../models/users.model')
+const Users = require('../../models/users.model');
+const Documentation = require('../../models/documentation.model');
+const dayjs = require('dayjs');
+dayjs().format()
 
-/* GET login listing. */
+
+
+router.post('/', upload.single('document'), async (req, res) => {
+
+    const extension = '.' + req.file.mimetype.split('/')[1];
+    const newName = req.file.filename + extension;
+    const newPath = req.file.path + extension;
+    fs.renameSync(req.file.path, newPath);
+
+    const obj = {
+        user_id: req.user.id,
+        category_id: parseInt(req.body.category_id),
+        date: dayjs().unix(),
+        route: newName,
+        name: req.file.originalname
+    }
+    try {
+        const response = await Documentation.create(obj);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 router.get('/', async (req, res) => {
-
-    res.send('get api/documentation funciona')
+    try {
+        const response = await Documentation.getAll();
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.get('/:id', async (req, res) => {
 
-    res.send('get api/documentation/:id funciona')
+router.get('/not-approved', async (req, res) => {
+    try {
+        const response = await Documentation.getNotApproved();
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.post('/', async (req, res) => {
-
-    res.send('post api/documentation funciona')
+router.get('/approved', async (req, res) => {
+    try {
+        const response = await Documentation.getApproved();
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.put('/:id', async (req, res) => {
+router.post('/change-status/:id', async (req, res) => {
+    const { id } = req.params
+    let { newStatus } = req.body
+    if (newStatus === "1") newStatus = true
+    else if (newStatus === "0") newStatus = false
 
-    res.send('put api/documentation/:id funciona')
+    try {
+        const response = await Documentation.changeStatus(id, newStatus);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+
+
+
 });
+
+// /* GET login listing. */
+// router.get('/', async (req, res) => {
+
+//     res.send('get api/documentation funciona')
+// });
+
+// router.get('/:id', async (req, res) => {
+
+//     res.send('get api/documentation/:id funciona')
+// });
+
+
+
+// router.put('/:id', async (req, res) => {
+
+//     res.send('put api/documentation/:id funciona')
+// });
 
 
 
