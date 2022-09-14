@@ -47,6 +47,7 @@ router.get('/', async (req, res) => {
 router.get('/not-approved', async (req, res) => {
     try {
         const response = await Documentation.getNotApproved();
+        console.log(dayjs(new Date()).unix())
         res.status(200).json(response);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -62,7 +63,7 @@ router.get('/approved', async (req, res) => {
     }
 });
 
-router.post('/change-status/:id', async (req, res) => {
+router.post('/change-authorization/:id', async (req, res) => {
     const { id } = req.params
     let { newStatus } = req.body
     if (newStatus === "1") newStatus = true
