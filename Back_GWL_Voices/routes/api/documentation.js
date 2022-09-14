@@ -61,12 +61,24 @@ router.get('/approved', async (req, res) => {
     }
 });
 
+
 router.get('/change-authorization/:id', async (req, res) => {
     const { id } = req.params
     try {
         const response = await Documentation.authorization(id);
         res.status(200).json(response);
     } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const response = await Documentation.getById(id);
+        res.status(200).json(response);
+    } catch (err) {
+        console.log(err.message);
         res.status(500).json({ error: err.message });
     }
 });
