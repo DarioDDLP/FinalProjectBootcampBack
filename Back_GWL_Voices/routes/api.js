@@ -13,7 +13,7 @@ const directoryRouter = require('./api/directory');
 const router = require('express').Router();
 
 router.use('/login', loginRouter);
-router.use('/register', checkToken, checkRole, registerRouter);
+router.use('/register', registerRouter);
 router.use('/member', checkToken, memberRouter);
 router.use('/forgot-password', forgotPasswordRouter);
 router.use('/new-password', newPasswordRouter);

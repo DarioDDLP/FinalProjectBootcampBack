@@ -5,7 +5,7 @@ const create = ({ user_id, category_id, date, route, name, subcategory }) => {
 };
 
 const getById = (id) => {
-    return executeQuery(`SELECT d.id, CONCAT(u.name, ' ', u.surname ) username, d.name as "filename", d.route as "route", d.date as "date", d.subcategory as "subcategory", d.status as "status", dc.category as "category" FROM documentation as d JOIN users as u on u.id = d.user_id Join doc_category as dc on dc.id = d.category_id WHERE d.status = true and u.id = 15 ORDER by d.date DESC`, [id])
+    return executeQuery(`SELECT d.id, CONCAT(u.name, ' ', u.surname ) username, d.name as "filename", d.route as "route", d.date as "date", d.subcategory as "subcategory", d.status as "status", dc.category as "category" FROM documentation as d JOIN users as u on u.id = d.user_id Join doc_category as dc on dc.id = d.category_id WHERE d.status = true and u.id = ? ORDER by d.date DESC`, [id])
 }
 
 const getNotApproved = () => {
