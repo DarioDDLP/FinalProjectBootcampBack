@@ -1,6 +1,25 @@
 const router = require('express').Router();
 const { transporter } = require('../../config/mailer');
-const User = require('../../models/users.model')
+const User = require('../../models/users.model');
+
+router.post('/', async (req, res) => {
+    const { mailto, subject, text } = req.body;
+    const { email } = req.user;
+    console.log(mailto, subject, text);
+    try {
+        await transporter.sendMail({
+            from: `${email}`, // sender address
+            to: mailto, // list of receivers
+            subject: subject, // Subject line
+            // text: "Hello world?", // plain text body
+            html: `<h1>${subject}</h1><p>${text}</p>`, // html body
+        });
+        res.status(200).json({ ok: 'mail has been send' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+});
 
 router.post('/:idReceiver', async (req, res) => {
     const { idReceiver } = req.params;
@@ -22,5 +41,6 @@ router.post('/:idReceiver', async (req, res) => {
     }
 
 })
+
 
 module.exports = router;
