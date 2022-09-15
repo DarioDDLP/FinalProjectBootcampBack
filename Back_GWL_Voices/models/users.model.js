@@ -14,7 +14,7 @@ const getAll = () => {
 };
 
 const getById = (id) => {
-    return executeQueryOne('SELECT id, image, name, surname, email, phone, working_group, postal_address, live_in, admin, status, resetToken from users where id = ?', [id])
+    return executeQueryOne('SELECT id, image, name, surname, email, phone, working_group, postal_address, live_in, admin, status, password, resetToken from users where id = ?', [id])
 };
 
 const getByStatus = (status) => {

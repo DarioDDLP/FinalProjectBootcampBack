@@ -117,9 +117,11 @@ router.post('/oldpassword', async (req, res) => {
     try {
         const id = req.user.id;
         const { inputPass } = req.body;
+
         const user = await Users.getById(id);
-        console.log(user);
+
         const equals = bcrypt.compareSync(inputPass, user.password);
+        console.log(equals)
         if (!equals) {
             return res.status(404).json({ error: "Wrong current password" });
         }
