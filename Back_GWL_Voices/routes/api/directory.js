@@ -28,6 +28,24 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+
+router.post('/register', async (req, res) => {
+    console.log(req.body)
+    const contact = req.body
+
+
+    try {
+        const response = await Directory.createContact(contact)
+        res.status(200).json(response)
+
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message })
+    }
+
+
+});
+
 router.post('/:id', async (req, res) => {
     const { id } = req.params
     try {

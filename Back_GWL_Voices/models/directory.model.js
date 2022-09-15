@@ -17,4 +17,13 @@ const changeStatus = (id) => {
     return executeQuery('update directory set status = false where id = ?', [id])
 }
 
-module.exports = { getById, getAll, changeStatus };
+const createContact = ({ name, surname, phone, email, role }) => {
+    return executeQuery('insert into directory (name, surname, phone, email, role) values (?, ?, ?, ?, ?)', [name, surname, phone, email, role])
+}
+
+module.exports = { getById, getAll, changeStatus, createContact };
+
+
+// const create = ({ name, surname, email, password, image }) => {
+//     return executeQuery('insert into users (name, surname, email, password, image) values (?, ?, ?, ?, ?)', [name, surname, email, password, image]);
+// };
