@@ -24,6 +24,3 @@ const createContact = ({ name, surname, phone, email, role }) => {
 module.exports = { getById, getAll, changeStatus, createContact };
 
 
-// const create = ({ name, surname, email, password, image }) => {
-//     return executeQuery('insert into users (name, surname, email, password, image) values (?, ?, ?, ?, ?)', [name, surname, email, password, image]);
-// };

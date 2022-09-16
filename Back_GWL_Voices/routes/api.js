@@ -9,6 +9,8 @@ const documentationRouter = require('./api/documentation');
 const chatRouter = require('./api/chat');
 const sendMailRouter = require('./api/sendmail');
 const directoryRouter = require('./api/directory');
+const messengerRouter = require('./api/messenger');
+
 
 const router = require('express').Router();
 
@@ -21,5 +23,6 @@ router.use('/documentation', checkToken, documentationRouter);
 router.use('/chat', checkToken, chatRouter);
 router.use('/send-email', checkToken, sendMailRouter);
 router.use('/directory', directoryRouter);
+router.use('/messenger', messengerRouter);
 
 module.exports = router;
