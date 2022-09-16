@@ -23,6 +23,6 @@ router.use('/documentation', checkToken, documentationRouter);
 router.use('/chat', checkToken, chatRouter);
 router.use('/send-email', checkToken, sendMailRouter);
 router.use('/directory', directoryRouter);
-router.use('/messenger', messengerRouter);
+router.use('/messenger', checkToken, messengerRouter);
 
 module.exports = router;
