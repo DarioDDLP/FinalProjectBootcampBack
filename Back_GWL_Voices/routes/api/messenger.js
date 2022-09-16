@@ -38,6 +38,16 @@ router.get('/:postId', async (req, res) => {
     }
 });
 
+router.get('/:postId/:id', async (req, res) => {
+    const { postId, id } = req.params;
+    try {
+        const response = await Messenger.logicDropThreadMessage(id)
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 router.post('/new/:postId', async (req, res) => {
     const { postId } = req.params;
     const { text } = req.body
