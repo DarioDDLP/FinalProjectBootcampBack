@@ -8,6 +8,13 @@ const newThread = (title, user_id, created_at) => {
     return executeQuery('insert into threads (title, user_id, created_at) values (?, ?, ?)', [title, user_id, created_at])
 }
 
+const getByPostId = (postId) => {
+    return executeQuery(`SELECT tm.created_at as 'created_at', t.title as 'titlePost', tm.data as 'text', CONCAT(u.name, ' ', u.surname) as 'username' FROM thread_messages as tm JOIN threads as t on t.id = tm.thread_id  join users as u on tm.users_id = u.id where tm.thread_id = ? and tm.status = 1`, [postId]);
+}
+
+const newThreadMessage = ({ postId, text, created_at, userId }) => {
+    return executeQuery('insert into thread_messages (thread_id, data, created_at, users_id) values (?, ?, ?, ?)', [postId, text, created_at, userId])
+}
 
 
-module.exports = { getAll, newThread };
+module.exports = { getAll, newThread, getByPostId, newThreadMessage };

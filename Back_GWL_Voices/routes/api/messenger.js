@@ -28,5 +28,37 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/:postId', async (req, res) => {
+    const { postId } = req.params;
+    try {
+        const response = await Messenger.getByPostId(postId);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.post('/new/:postId', async (req, res) => {
+    const { postId } = req.params;
+    const { text } = req.body
+    console.log(req.user);
+
+    const obj = {
+        postId: parseInt(postId),
+        text: text,
+        created_at: new Date(),
+        userId: req.user.id
+    }
+
+    console.log(obj)
+    try {
+        const response = await Messenger.newThreadMessage(obj);
+        res.status(200).json(response);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 module.exports = router;
