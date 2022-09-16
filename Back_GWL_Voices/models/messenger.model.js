@@ -1,7 +1,9 @@
 const { executeQuery, executeQueryOne } = require('../helpers/utils');
 
 const getAll = () => {
-    return executeQuery(`select * from threads where status = true`, [])
+    return executeQuery(`select CONCAT(u.name ,' ', u.surname) as username, t.* from threads as t JOIN users as u on u.id = t.user_id where t.status = true `, [])
+
+
 }
 
 const newThread = (title, user_id, created_at) => {
