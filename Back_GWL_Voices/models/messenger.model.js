@@ -22,5 +22,8 @@ const logicDropThreadMessage = (id) => {
     return executeQuery('update thread_messages set status = false where id = ?', [id]);
 };
 
+const logicDropThread = (id) => {
+    return executeQuery('update threads set status = false where id = ?', [id]);
+}
 
-module.exports = { getAll, newThread, getByPostId, newThreadMessage, logicDropThreadMessage };
+module.exports = { getAll, newThread, getByPostId, newThreadMessage, logicDropThreadMessage, logicDropThread };
