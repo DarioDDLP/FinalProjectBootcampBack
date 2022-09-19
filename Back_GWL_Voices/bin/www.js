@@ -7,6 +7,7 @@
 const app = require('../app');
 const debug = require('debug')('back-gwl-voices:server');
 const http = require('http');
+const cors = require('cors');
 
 //environments extraction
 require("dotenv").config();
@@ -25,10 +26,15 @@ app.set('port', port);
  * Create HTTP server.
  */
 
+app.use(cors());
+
 const server = http.createServer(app);
 
+
 //Socket.io config
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  cors: { origin: '*' }
+});
 io.on('connection', (socket) => {
   console.log('Cliente conectado');
 });
