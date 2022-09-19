@@ -35,9 +35,21 @@ const server = http.createServer(app);
 const io = require('socket.io')(server, {
   cors: { origin: '*' }
 });
+
 io.on('connection', (socket) => {
   console.log('Cliente conectado');
+
+  socket.on('mensajeChat', async (data) => {
+    console.log(data);
+    io.emit('mensajeChat', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('usuario desconectado');
+  });
 });
+
+
 
 /**
  * Listen on provided port, on all network interfaces.
