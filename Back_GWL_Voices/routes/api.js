@@ -10,6 +10,7 @@ const chatRouter = require('./api/chat');
 const sendMailRouter = require('./api/sendmail');
 const directoryRouter = require('./api/directory');
 const messengerRouter = require('./api/messenger');
+const calendarRoute = require('./api/calendar');
 
 
 const router = require('express').Router();
@@ -24,5 +25,6 @@ router.use('/chat', checkToken, chatRouter);
 router.use('/send-email', checkToken, sendMailRouter);
 router.use('/directory', directoryRouter);
 router.use('/messenger', checkToken, messengerRouter);
+router.use('/calendar', checkToken, calendarRoute);
 
 module.exports = router;
