@@ -1,6 +1,7 @@
 
 const jwt = require('jsonwebtoken');
 const User = require('../models/users.model');
+const dayjs = require('dayjs');
 
 const checkToken = async (req, res, next) => {
 
@@ -13,6 +14,7 @@ const checkToken = async (req, res, next) => {
     let payload;
     try {
         payload = jwt.verify(token, process.env.TOKEN_DECODE);
+        if (payload.exp_date < dayjs().unix()) return res.status(401).json({ error: 'Expired Token' });
         const user = await User.getById(payload.user_id);
         req.user = user
         next();
