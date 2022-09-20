@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
 
   socket.on('mensajeChat', async (data) => {
     console.log(data);
-    io.emit('message', `${socket.id.substr(0, 2)} said ${message}`);
+    io.emit('mensajeChat', data);
   });
 
   socket.on('disconnect', () => {
