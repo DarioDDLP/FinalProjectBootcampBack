@@ -35,6 +35,7 @@ router.get('/delete/:id', async (req, res) => {
 });
 
 router.post('/', upload.single('photo'), async (req, res, next) => {
+    console.log(req.file)
     if (req.file) {
         // Antes de guardar el producto en la base de datos, modificamos la imagen para situarla donde nos interesa
         const extension = '.' + req.file.mimetype.split('/')[1];
