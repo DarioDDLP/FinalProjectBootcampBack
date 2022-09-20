@@ -3,6 +3,32 @@ const Menrchandising = require('../../models/merchandising.model');
 const fs = require('fs');
 const multer = require('multer');
 const upload = multer({ dest: 'public/products' });
+const { transporter } = require('../../config/mailer');
+const User = require('../../models/users.model');
+
+router.get('/enquire/:id', async (req, res) => {
+    const user = req.user;
+    const { text, subject } = req.body
+    const { id } = req.params
+    try {
+        const product = await Menrchandising.getById(id)
+        const admins = await User.getAdmins();
+        const adminsMail = admins.map((value) => value.email);
+        await transporter.sendMail({
+            from: `${user.name} ${user.surname}`, // sender address
+            to: `${adminsMail}`, // list of receivers
+            subject: subject, // Subject line
+            // text: "Hello world?", // plain text body
+            html: `<h1>${user.name} ${user.surname} requesting information\n"${product.category}: ${product.title}"</h1><br><p>${text}</p>`, // html body
+        });
+        res.status(200).json({ success: 'ok' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
 
 router.get('/', async (req, res) => {
     try {
@@ -12,6 +38,8 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+
 
 
 router.get('/id/:id', async (req, res) => {
@@ -66,6 +94,8 @@ router.get('/get-category', async (req, res) => {
     }
 });
 
+
+
 router.put('/:id', async (req, res) => {
     if (req.file) {
         // Antes de guardar el producto en la base de datos, modificamos la imagen para situarla donde nos interesa
@@ -86,4 +116,6 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 })
+
+
 module.exports = router;

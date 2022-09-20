@@ -41,4 +41,8 @@ const updateUserPassword = (id, newPassword) => {
     return executeQuery('update users set password = ? where id = ?', [newPassword, id]);
 };
 
-module.exports = { getByEmail, getAll, getById, create, update, addResetToken, getByResetToken, updateUserPassword, updateStatus, getByStatus };
+const getAdmins = () => {
+    return executeQuery('SELECT id, image, name, surname, email, phone, working_group, postal_address, live_in, admin, status, resetToken from users where admin = true ORDER BY name ASC ')
+};
+
+module.exports = { getByEmail, getAll, getById, create, update, addResetToken, getByResetToken, updateUserPassword, updateStatus, getByStatus, getAdmins };
