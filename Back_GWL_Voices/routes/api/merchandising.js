@@ -49,7 +49,7 @@ router.post('/', upload.single('photo'), async (req, res, next) => {
     } else req.body.photo = req.user.photo;
 
     try {
-        const response = await Menrchandising.create(id, req.body);
+        const response = await Menrchandising.create(req.body);
         res.json(response);
     } catch (err) {
         res.json({ error: err.message });
