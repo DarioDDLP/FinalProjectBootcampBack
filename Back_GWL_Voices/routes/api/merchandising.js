@@ -6,7 +6,7 @@ const upload = multer({ dest: 'public/products' });
 const { transporter } = require('../../config/mailer');
 const User = require('../../models/users.model');
 
-router.get('/enquire/:id', async (req, res) => {
+router.post('/enquire/:id', async (req, res) => {
     const user = req.user;
     const { text, subject } = req.body
     const { id } = req.params
@@ -14,6 +14,7 @@ router.get('/enquire/:id', async (req, res) => {
         const product = await Menrchandising.getById(id)
         const admins = await User.getAdmins();
         const adminsMail = admins.map((value) => value.email);
+        adminsMail.push(user.email);
         await transporter.sendMail({
             from: `${user.name} ${user.surname}`, // sender address
             to: `${adminsMail}`, // list of receivers
@@ -40,7 +41,15 @@ router.get('/', async (req, res) => {
 });
 
 
-
+router.post('/get-filtered', async (req, res) => {
+    const { category } = req.body;
+    try {
+        const response = await Menrchandising.getByCategory(category);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+})
 
 router.get('/id/:id', async (req, res) => {
     const { id } = req.params

@@ -22,4 +22,8 @@ const getCategory = () => {
 const update = (id, { category, title, photo, description }) => {
     return executeQuery('update products set category = ?, title = ?, photo = ?, description = ? where id = ?', [category, title, photo, description, id]);
 };
-module.exports = { getAll, getById, logicDrop, create, getCategory, update };
+
+const getByCategory = (category) => {
+    return executeQuery(`select * from products where status = true and category = ?`, [category])
+}
+module.exports = { getAll, getById, logicDrop, create, getCategory, update, getByCategory };
