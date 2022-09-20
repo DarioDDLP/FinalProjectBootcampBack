@@ -16,7 +16,7 @@ const create = ({ category, title, photo, description }) => {
 };
 
 const getCategory = () => {
-    return executeQuery('SELECT distinct category FROM products', []);
+    return executeQuery('SELECT distinct category FROM products where status = true', []);
 };
 
 const update = (id, { category, title, photo, description }) => {
