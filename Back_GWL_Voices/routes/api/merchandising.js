@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Menrchandising = require('../../models/merchandising.model');
+const fs = require('fs');
 const multer = require('multer');
 const upload = multer({ dest: 'public/products' });
 
