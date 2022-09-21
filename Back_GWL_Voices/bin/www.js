@@ -39,9 +39,9 @@ const io = require('socket.io')(server, {
 io.on('connection', (socket) => {
   console.log('Cliente conectado');
 
-  socket.on('mensajeChat', async (data) => {
+  socket.on('messageChat', async (data) => {
     console.log(data);
-    io.emit('mensajeChat', data);
+    io.emit('messageChat', data);
   });
 
   socket.on('disconnect', () => {
