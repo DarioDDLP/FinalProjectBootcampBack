@@ -37,15 +37,26 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log('Cliente conectado');
+  console.log('Se ha conectado un nuevo cliente');
+  const data = {
+    username: '[INFO]',
+    text: 'User join to chat',
+    created_at: Date.now()
+  }
+  socket.broadcast.emit('messageChat', data);
 
   socket.on('messageChat', async (data) => {
-    console.log(data);
+    data.created_at = Date.now();
     io.emit('messageChat', data);
   });
 
   socket.on('disconnect', () => {
-    console.log('usuario desconectado');
+    const data = {
+      username: '[INFO]',
+      text: 'User part',
+      created_at: new Date()
+    }
+    io.emit('messageChat', data);
   });
 });
 
