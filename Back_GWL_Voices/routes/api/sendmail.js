@@ -30,7 +30,7 @@ router.post('/:idReceiver', async (req, res) => {
         const emitter = await User.getById(id)
         await transporter.sendMail({
             from: `${emitter.name} ${emitter.surname}`, // sender address
-            to: "thegordosmen@gmail.com", // list of receivers
+            to: `${receiver.email}`, // list of receivers
             subject: subject, // Subject line
             // text: "Hello world?", // plain text body
             html: `<h1>${emitter.name} ${emitter.surname} has sent you a message</h1><p>${req.body.text}</p>`, // html body

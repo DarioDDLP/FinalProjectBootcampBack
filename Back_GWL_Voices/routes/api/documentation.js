@@ -7,12 +7,14 @@ const router = express.Router();
 
 const Users = require('../../models/users.model');
 const Documentation = require('../../models/documentation.model');
+const { transporter } = require('../../config/mailer');
 const dayjs = require('dayjs');
 dayjs().format()
 
 
 
 router.post('/', upload.single('document'), async (req, res) => {
+
     const extension = '.' + req.file.mimetype.split('/')[1];
     const newName = req.file.filename + extension;
     const newPath = req.file.path + extension;
@@ -25,9 +27,17 @@ router.post('/', upload.single('document'), async (req, res) => {
         name: req.file.originalname,
         subcategory: req.body.subcategory
     }
-    console.log(obj)
+    const admins = await Users.getAdmins();
+    const adminsMail = admins.map((value) => value.email);
     try {
         const response = await Documentation.create(obj);
+        await transporter.sendMail({
+            from: `info@gwlvoices.es`, // sender address
+            to: `${adminsMail}`, // list of receivers
+            subject: 'New document awaiting approval', // Subject line
+            // text: "Hello world?", // plain text body
+            html: `<h1>Please check the documentation area. There are documents awaiting approval </h1>`, // html body
+        });
         res.status(200).json(response);
     } catch (err) {
         console.log(err.message)

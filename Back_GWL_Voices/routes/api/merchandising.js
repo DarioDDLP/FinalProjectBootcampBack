@@ -8,7 +8,7 @@ const User = require('../../models/users.model');
 
 router.post('/enquire/:id', async (req, res) => {
     const user = req.user;
-    const { text, subject } = req.body
+    const { text, subject, eventInfo, deliveryAddress, date, quantity } = req.body
     const { id } = req.params
     try {
         const product = await Menrchandising.getById(id)
@@ -20,7 +20,7 @@ router.post('/enquire/:id', async (req, res) => {
             to: `${adminsMail}`, // list of receivers
             subject: subject, // Subject line
             // text: "Hello world?", // plain text body
-            html: `<h1>${user.name} ${user.surname} requesting information\n"${product.category}: ${product.title}"</h1><br><p>${text}</p>`, // html body
+            html: `<h1>${user.name} ${user.surname} is requesting information\n"${product.category}: ${product.title}"</h1><h2>Event info: ${eventInfo}</h2><h2>Date event: ${date}</h2><h2>Delivery Address: ${deliveryAddress}</h2><h2>Quantity: ${quantity}</h2><br><p>${text}</p>`, // html body
         });
         res.status(200).json({ success: 'ok' });
     } catch (error) {
