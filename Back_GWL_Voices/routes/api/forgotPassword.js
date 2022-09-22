@@ -5,11 +5,6 @@ const router = require('express').Router();
 const Users = require('../../models/users.model');
 const { transporter } = require('../../config/mailer');
 
-
-// FORGOT PASSWORD
-
-let user;
-
 router.post('/recovery', async (req, res) => {
     const { username } = req.body;
     if (!username) return res.status(400).json({ message: 'Username is required' });
@@ -20,13 +15,12 @@ router.post('/recovery', async (req, res) => {
         const user = await Users.getByEmail(username);
         const token = createResetToken(user);
         user.resetToken = token;
-        const response = await Users.addResetToken(user.id, token);
-        console.log(process.env.RECOVERY_PASSWORD_URL)
+        await Users.addResetToken(user.id, token);
         verificationLink = `${process.env.RECOVERY_PASSWORD_URL}${token}`;
         // send mail with defined transport object
         await transporter.sendMail({
             from: 'Forgot Password GWL Voices', // sender address
-            to: "cdariopex@gmail.com", // list of receivers
+            to: `${user.email}`, // list of receivers
             subject: "Forgot Password GWL Voices ", // Subject line
             text: "Hello world?", // plain text body
             html: `<h1>GWL Voices</h1><p>Please refer to the following link to change your password and enable your user again.</p><p>${verificationLink}</p><p>Remember that you only have one hour. After that time, the Link will expire and you will have to repeat the process.</p>`, // html body
@@ -36,6 +30,5 @@ router.post('/recovery', async (req, res) => {
         return res.json({ message: 'User dont exist' });
     };
 });
-
 
 module.exports = router;

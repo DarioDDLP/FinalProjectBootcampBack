@@ -1,8 +1,6 @@
 const { executeQuery, executeQueryOne } = require('../helpers/utils');
 
-
-
-
+//Creates queries to directory table on database.
 
 const getAll = () => {
     return executeQuery(`select * from directory where status = true`, [])
@@ -11,7 +9,6 @@ const getAll = () => {
 const getById = (id) => {
     return executeQueryOne(`select * from directory where id = ?`, [id])
 }
-
 
 const changeStatus = (id) => {
     return executeQuery('update directory set status = false where id = ?', [id])

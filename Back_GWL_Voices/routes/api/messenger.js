@@ -1,15 +1,9 @@
-
-const { body, validationResult } = require('express-validator');
-
 const router = require('express').Router();
 const Messenger = require('../../models/messenger.model');
 
-
 router.get('/', async (req, res) => {
-
     try {
         const response = await Messenger.getAll();
-
         res.status(200).json(response)
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -18,10 +12,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const { user_id, title, created_at } = req.body
-
     try {
         const response = await Messenger.newThread(title, user_id, created_at)
-
         res.status(200).json(response)
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -36,7 +28,6 @@ router.get('/delete/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-
 });
 
 router.get('/:postId', async (req, res) => {
@@ -50,7 +41,7 @@ router.get('/:postId', async (req, res) => {
 });
 
 router.get('/:postId/:id', async (req, res) => {
-    const { postId, id } = req.params;
+    const { id } = req.params;
     try {
         const response = await Messenger.logicDropThreadMessage(id)
         res.status(200).json(response);
@@ -68,8 +59,6 @@ router.post('/new/:postId', async (req, res) => {
         created_at: new Date(),
         userId: req.user.id
     }
-
-
     try {
         const response = await Messenger.newThreadMessage(obj);
         res.status(200).json(response);
@@ -77,8 +66,5 @@ router.post('/new/:postId', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-
-
 
 module.exports = router;

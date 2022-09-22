@@ -1,4 +1,7 @@
 const { executeQuery, executeQueryOne } = require('../helpers/utils');
+
+//Creates queries to products table on database.
+
 const getAll = () => {
     return executeQuery(`select * from products where status = true`, [])
 }

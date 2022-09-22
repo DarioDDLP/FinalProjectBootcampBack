@@ -1,11 +1,9 @@
 const express = require('express');
+const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../../helpers/utils');
-const router = express.Router();
-
 const Users = require('../../models/users.model')
 
-/* GET login listing. */
 router.post('/', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -23,7 +21,5 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-
 
 module.exports = router;

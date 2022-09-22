@@ -1,5 +1,7 @@
 const { executeQuery, executeQueryOne } = require('../helpers/utils');
 
+//Creates queries to documentation table on database.
+
 const create = ({ user_id, category_id, date, route, name, subcategory }) => {
     return executeQuery('insert into documentation (user_id, category_id, date, route, name, subcategory) values (?, ?, ?, ?, ?, ?)', [user_id, category_id, date, route, name, subcategory]);
 };

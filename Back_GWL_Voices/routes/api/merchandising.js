@@ -1,10 +1,11 @@
 const router = require('express').Router();
-const Menrchandising = require('../../models/merchandising.model');
 const fs = require('fs');
-const multer = require('multer');
-const upload = multer({ dest: 'public/products' });
 const { transporter } = require('../../config/mailer');
 const User = require('../../models/users.model');
+const Menrchandising = require('../../models/merchandising.model');
+
+const multer = require('multer');
+const upload = multer({ dest: 'public/products' });
 
 router.post('/enquire/:id', async (req, res) => {
     const user = req.user;
@@ -28,9 +29,6 @@ router.post('/enquire/:id', async (req, res) => {
     }
 });
 
-
-
-
 router.get('/', async (req, res) => {
     try {
         const response = await Menrchandising.getAll();
@@ -39,7 +37,6 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
 
 router.post('/get-filtered', async (req, res) => {
     const { category } = req.body;
@@ -72,7 +69,6 @@ router.get('/delete/:id', async (req, res) => {
 });
 
 router.post('/', upload.single('photo'), async (req, res, next) => {
-    console.log(req.file)
     if (req.file) {
         // Antes de guardar el producto en la base de datos, modificamos la imagen para situarla donde nos interesa
         const extension = '.' + req.file.mimetype.split('/')[1];
@@ -85,12 +81,11 @@ router.post('/', upload.single('photo'), async (req, res, next) => {
         // Modifico el BODY para poder incluir el nombre de la imagen en la BD
         req.body.photo = newName;
     } else req.body.photo = req.user.photo;
-
     try {
         const response = await Menrchandising.create(req.body);
-        res.json(response);
+        res.status(200).json(response);
     } catch (err) {
-        res.json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -102,8 +97,6 @@ router.get('/get-category', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-
 
 router.put('/:id', async (req, res) => {
     if (req.file) {
@@ -125,6 +118,5 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 })
-
 
 module.exports = router;

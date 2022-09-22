@@ -1,7 +1,8 @@
 const { executeQuery, executeQueryOne } = require('../helpers/utils');
 
-const getByEmail = (email) => {
+//Creates queries to users table on database.
 
+const getByEmail = (email) => {
     return executeQueryOne('select * from users where email = ?', [email]);
 };
 

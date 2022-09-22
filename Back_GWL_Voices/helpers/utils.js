@@ -1,14 +1,12 @@
 const jwt = require('jsonwebtoken');
 const dayjs = require("dayjs");
 
-
 /**
  * @description Executes an sql statement and returns an array/object with the result
  * @param {*} sql 
  * @param {*} arr 
  * @returns return a array of query
  */
-
 
 const executeQuery = (sql, arr = []) => {
     return new Promise((resolve, reject) => {
@@ -49,6 +47,11 @@ const createToken = (user) => {
     return jwt.sign(obj, process.env.TOKEN_DECODE,);
 }
 
+/**
+ * @description Create reset token for user.
+ * @param {*} user 
+ * @return return reset token.
+ */
 
 const createResetToken = (user) => {
     const obj = {

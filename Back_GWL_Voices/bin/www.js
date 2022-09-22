@@ -36,8 +36,9 @@ const io = require('socket.io')(server, {
   cors: { origin: '*' }
 });
 
+//Subcribes to connection event.
+
 io.on('connection', (socket) => {
-  console.log('Se ha conectado un nuevo cliente');
   const data = {
     username: '[INFO]',
     text: 'User join to chat',
@@ -45,10 +46,14 @@ io.on('connection', (socket) => {
   }
   socket.broadcast.emit('messageChat', data);
 
+  //Subcribes to messageChat event.
+
   socket.on('messageChat', async (data) => {
     data.created_at = Date.now();
     io.emit('messageChat', data);
   });
+
+  //Subcribes to disconection event.
 
   socket.on('disconnect', () => {
     const data = {

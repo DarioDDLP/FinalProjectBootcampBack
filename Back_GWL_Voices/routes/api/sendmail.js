@@ -5,7 +5,6 @@ const User = require('../../models/users.model');
 router.post('/', async (req, res) => {
     const { mailto, subject, text } = req.body;
     const { email } = req.user;
-    console.log(mailto, subject, text);
     try {
         await transporter.sendMail({
             from: `${email}`, // sender address
@@ -18,7 +17,6 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-
 });
 
 router.post('/:idReceiver', async (req, res) => {
@@ -33,14 +31,12 @@ router.post('/:idReceiver', async (req, res) => {
             to: `${receiver.email}`, // list of receivers
             subject: subject, // Subject line
             // text: "Hello world?", // plain text body
-            html: `<h1>${emitter.name} ${emitter.surname} has sent you a message</h1><p>${req.body.text}</p>`, // html body
+            html: `<h1>${emitter.name} ${emitter.surname} has sent you a message</h1><p>${text}</p>`, // html body
         });
-        res.json({ success: 'email has been sent' });
+        res.status(200).json({ success: 'Email has been sent' });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-
 })
-
 
 module.exports = router;

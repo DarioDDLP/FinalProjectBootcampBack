@@ -1,16 +1,13 @@
 const express = require('express');
+const router = express.Router();
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
-const { createToken } = require('../../helpers/utils');
+const Users = require('../../models/users.model');
+
 const multer = require('multer');
 const upload = multer({ dest: 'public/images' });
 
 
-const router = express.Router();
-
-const Users = require('../../models/users.model')
-
-/* GET login listing. */
 router.get('/', async (req, res) => {
     try {
         const users = await Users.getAll();
@@ -18,11 +15,9 @@ router.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).send({ error: err.message })
     }
-
 });
 
 router.get('/user', async (req, res) => {
-
     const user = req.user
     try {
         const response = await Users.getById(user.id)
@@ -30,8 +25,6 @@ router.get('/user', async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-
-
 });
 
 router.post('/status-filtered', async (req, res) => {
@@ -44,7 +37,6 @@ router.post('/status-filtered', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-
 });
 
 router.post('/status', async (req, res) => {
@@ -56,9 +48,8 @@ router.post('/status', async (req, res) => {
         const response = await Users.updateStatus(user.status, id)
         res.status(200).json(response);
     } catch (error) {
-        console.log(error)
+        res.status(500).json({ error: error.message })
     }
-
 })
 
 router.get('/:id', async (req, res) => {
@@ -86,21 +77,16 @@ router.put('/:id', upload.single('image'), async (req, res, next) => {
         // Modifico el BODY para poder incluir el nombre de la imagen en la BD
         req.body.image = newName;
     } else req.body.image = req.user.image;
-
     try {
         const response = await Users.update(id, req.body);
-
-        res.json(response);
+        res.status(200).json(response);
     } catch (err) {
-        res.json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 });
 
-
-
 router.post('/new-password', async (req, res) => {
     const newPassword = req.body.newpassword;
-    const { id } = req.user;
     if (!newPassword) return res.status(400).json({ message: 'password required' });
     const passwordUpdated = bcrypt.hashSync(newPassword, 12);
     try {
@@ -110,31 +96,23 @@ router.post('/new-password', async (req, res) => {
     } catch (err) {
         return res.status(400).json({ message: 'Sometimes goes wrong!' });
     }
-
 })
 
 router.post('/oldpassword', async (req, res) => {
     try {
         const id = req.user.id;
         const { inputPass } = req.body;
-
         const user = await Users.getById(id);
-
         const equals = bcrypt.compareSync(inputPass, user.password);
-        console.log(equals)
         if (!equals) {
             return res.status(404).json({ error: "Wrong current password" });
         }
-
         res.status(200).send(user)
-
     } catch (error) {
         res.status(404).send({ error: 'Wrong current password!!!!' })
-
     }
-
-
 });
+
 module.exports = router;
 
 
