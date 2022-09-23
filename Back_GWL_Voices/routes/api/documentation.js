@@ -42,14 +42,14 @@ router.post('/', upload.single('document'), async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
-    try {
-        const response = await Documentation.getAll();
-        res.status(200).json(response);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
+// router.get('/', async (req, res) => {
+//     try {
+//         const response = await Documentation.getAll();
+//         res.status(200).json(response);
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// });
 
 router.get('/not-approved', async (req, res) => {
     try {

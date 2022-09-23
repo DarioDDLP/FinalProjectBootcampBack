@@ -17,14 +17,14 @@ const merchandisingRoute = require('./api/merchandising')
 const router = require('express').Router();
 
 router.use('/login', loginRouter);
-router.use('/register', registerRouter);
+router.use('/register', checkToken, registerRouter);
 router.use('/member', checkToken, memberRouter);
 router.use('/forgot-password', forgotPasswordRouter);
 router.use('/new-password', newPasswordRouter);
 router.use('/documentation', checkToken, documentationRouter);
 router.use('/chat', checkToken, chatRouter);
 router.use('/send-email', checkToken, sendMailRouter);
-router.use('/directory', directoryRouter);
+router.use('/directory', checkToken, directoryRouter);
 router.use('/messenger', checkToken, messengerRouter);
 router.use('/calendar', checkToken, calendarRoute);
 router.use('/merchandising', checkToken, merchandisingRoute);
