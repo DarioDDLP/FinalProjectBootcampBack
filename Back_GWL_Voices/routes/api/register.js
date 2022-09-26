@@ -38,7 +38,7 @@ router.post(
                 to: `${req.body.email}`, // list of receivers
                 subject: 'You have been invited to be part of GWL Voices private area.', // Subject line
                 // text: "Hello world?", // plain text body
-                html: `<h1>Welcome to GWL Voices!</h1><h3>Please, go to this link ${process.env.URL_LOGIN}</h3><h4>Credentials</h4><h5>Username: ${req.body.email}</h5><h5>Password: ${pwd}</h5><h6>Please, after logging in, go to your profile to set a new password of your choise</h6>`, // html body
+                html: `<h1>Welcome to GWL Voices!</h1><h3>Please, go to this link ${process.env.URL_LOGIN}</h3><h4>Credentials</h4><h5>Username: ${req.body.email}</h5><h5>Password: ${pwd}</h5><h6>Please, after logging in, go to your profile to set a new password of your choice</h6>`, // html body
             });
             res.status(200).json(response);
         } catch (err) {
