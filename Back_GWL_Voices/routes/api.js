@@ -24,7 +24,7 @@ router.use('/new-password', newPasswordRouter);
 router.use('/documentation', checkToken, documentationRouter);
 router.use('/chat', checkToken, chatRouter);
 router.use('/send-email', checkToken, sendMailRouter);
-router.use('/directory', checkToken, directoryRouter);
+router.use('/directory', directoryRouter);
 router.use('/messenger', checkToken, messengerRouter);
 router.use('/calendar', checkToken, calendarRoute);
 router.use('/merchandising', checkToken, merchandisingRoute);
