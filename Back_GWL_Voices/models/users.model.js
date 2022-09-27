@@ -11,7 +11,7 @@ const create = ({ name, surname, email, password, image }) => {
 };
 
 const getAll = () => {
-    return executeQuery('SELECT id, image, name, surname, email, phone, working_group, postal_address, live_in, admin, status, resetToken from users ORDER BY name ASC ')
+    return executeQuery('SELECT id, image, name, surname, email, phone, working_group, postal_address, live_in, admin, status, resetToken from users ORDER BY surname ASC ')
 };
 
 const getById = (id) => {
@@ -19,7 +19,7 @@ const getById = (id) => {
 };
 
 const getByStatus = (status) => {
-    return executeQuery('Select * from users where status = ?', [status])
+    return executeQuery('Select * from users where status = ? ORDER BY surname ASC', [status])
 }
 
 const update = (id, { image, name, surname, email, phone, working_group, postal_address, live_in, }) => {
