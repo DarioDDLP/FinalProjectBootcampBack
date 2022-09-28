@@ -1,0 +1,8 @@
+DB_HOST="127.0.0.1"
+DB_USER="root"
+DB_PASSWORD="Cdariopexsql"
+DB_PORT=3306
+DB_NAME="gwl_voices_u"
+TOKEN_DECODE="GWL_Voices_Api"
+RECOVERY_PASSWORD_URL="http://localhost:4200/new-password/"
+URL_LOGIN="http://localhost:4200/login"
