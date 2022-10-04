@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "c6eeec31-8d11-4313-8027-9247b43b9677",
+		"name": "GWL_Voices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21608959"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "GET LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@test.es\",\n    \"password\": \"Testeo666..\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Members",
+			"item": [
+				{
+					"name": "NEW MEMBER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ana\",\n    \"surname\": \"vilchez\",\n    \"email\": \"test@test.es\",\n    \"password\": \"Testeo666..\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL MEMBERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/member",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwiZXhwX2RhdGUiOjE2NjI2NTc2MzUsImlhdCI6MTY2MjY1MDQzNX0.TpELWCOZ9kVfKuynS5lIjl1RZqhzh6K7Km_RqV6NE00",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/member/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"member",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE MEMBER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"image\": null,\n    \"name\": \"anaUPDATE\",\n    \"surname\": \"vilchez\",\n    \"email\": \"test@test.es\",\n    \"phone\": null,\n    \"working_group\": null,\n    \"postal_address\": null,\n    \"live_in\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/member/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"member",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FORGOT PASSWORD",
+			"item": [
+				{
+					"name": "RECOVERY PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin@admin.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/forgot-password/recovery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"forgot-password",
+								"recovery"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "resetToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJleHBfZGF0ZSI6MTY2MjcxMDE3MywiaWF0IjoxNjYyNzA2NTczfQ.YwHpV8nTuvqeRKjun2XlJC6QsVlCXRkVX2VfEt_taQU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"Testeo123.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api//forgot-password/new-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"",
+								"forgot-password",
+								"new-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

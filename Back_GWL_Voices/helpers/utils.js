@@ -1,14 +1,12 @@
 const jwt = require('jsonwebtoken');
 const dayjs = require("dayjs");
 
-
 /**
  * @description Executes an sql statement and returns an array/object with the result
  * @param {*} sql 
  * @param {*} arr 
  * @returns return a array of query
  */
-
 
 const executeQuery = (sql, arr = []) => {
     return new Promise((resolve, reject) => {
@@ -44,9 +42,22 @@ const executeQueryOne = (sql, arr = []) => {
 const createToken = (user) => {
     const obj = {
         user_id: user.id,
-        exp_date: dayjs().add(2, "hours").unix(),
+        exp_date: dayjs().add(8, "hours").unix(),
     }
     return jwt.sign(obj, process.env.TOKEN_DECODE,);
 }
 
-module.exports = { executeQuery, executeQueryOne, createToken };
+/**
+ * @description Create reset token for user.
+ * @param {*} user 
+ * @return return reset token.
+ */
+
+const createResetToken = (user) => {
+    const obj = {
+        user_id: user.id,
+        exp_date: dayjs().add(1, "hours").unix(),
+    }
+    return jwt.sign(obj, process.env.TOKEN_DECODE,);
+}
+module.exports = { executeQuery, executeQueryOne, createToken, createResetToken };
